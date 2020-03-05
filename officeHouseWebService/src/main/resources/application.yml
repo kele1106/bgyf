@@ -1,0 +1,211 @@
+server:
+  port: 8088
+#apollo:
+#  bootstrap:
+#    namespaces: application,rscenter.common
+#    eagerLoad:
+#      enabled: true
+#
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8001/eureka/
+  instance:
+    prefer-ip-address: true
+
+#flowable:
+#  database-schema-update: true
+#  idm:
+#    enabled: false
+#  modeler:
+#    app:
+#      rest-enabled: false
+
+logging:
+  config: classpath:logback-custom.xml
+  path: D:/ibase/logs
+
+module:
+  name: bgyf/officeHouseWebService
+
+#packages:
+#  toscan:
+#    entity: com.southgis.ibase
+#
+#securityFilter:
+#  checkHost: false
+#
+#server:
+#  compression:
+#    mime-types: message/rfc822
+#  servlet:
+##    context-path: /OfficeHouseWebService
+#    session:
+#      timeout: PT540M
+#    context-parameters:
+#      adminseal-password: 111111
+#      webAppRootKey: appWfs.root
+#
+spring:
+  profiles:
+    active: jar
+  application:
+    name: OfficeHouseWebService
+
+  cas:
+    cas-server-login-url: http://localhost:8080/cas/login
+    cas-server-url-prefix: http://localhost:8080/cas/
+    server-name: http://localhost:${server.port}/
+    assertion-url-patterns: /*
+    auth-url-patterns: /*
+    request-wrapper-url-patterns: /*
+    sign-out-url-patterns: /*
+    validate-url-patterns: /*
+    ignore-pattern: (^[^?#!;]*[.](js|css|gif|png|jpg|jpeg|ico|ttf|woff|svg)\?.*$)|([^?#!;]*/public/.*)|(^[^?#!;]*[.](js|css|gif|png|jpg|jpeg|ico|ttf|woff|svg)$)
+
+#  data:
+#    mongodb:
+#      host: 127.0.0.1
+#      port: 27017
+#      database: ibase
+#      password: ''
+#      username: ''
+#
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.10.58:3306/ibase_29?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&createDatabaseIfNotExist=true&useSSL=false&nullCatalogMeansCurrent=true
+    password: Ibase@20190626
+    username: root
+    hikari:
+      auto-commit: true
+      connection-test-query: select 1 from dual
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      maximum-pool-size: 100
+      minimum-idle: 50
+      pool-name: UserHikariCP
+      read-only: false
+
+  servlet:
+    multipart:
+      max-file-size: 1000MB #单个文件大小
+      max-request-size: 1000MB #设置总上传的数据大小
+      enabled: true #开启
+
+  http:
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+    # multipart:
+    #   maxFileSize: 1000Mb
+    #   maxRequestSize: 1000Mb
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true  #配置返回时间戳
+
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL55InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: gz_gxjtest
+        dialect: org.hibernate.dialect.MySQL55Dialect
+        hbm2ddl:
+          auto: update
+        show_sql: true
+#
+#  redis:
+#    host: 192.168.10.128
+#    port: 6379
+#    password: ''
+#    timeout: 3600
+#    jedis:
+#      pool:
+#        max-active: 1
+#        max-idle: 1
+#        max-wait: 3600
+#        min-idle: 1
+#    default:
+#      database: 0
+#
+#
+#  rabbitmq:
+#    host: 127.0.0.1
+#    port: 5672
+#    password: guest
+#    username: guest
+#    virtual-host: /
+#
+#  sleuth:
+#    sampler:
+#      probability: 1.0
+#    propagation-keys:
+#      - X-Operation-ID
+#      - X-Operation-Name
+#      - X-User-Id
+#      - X-User-Name
+#      - X-Client-Ip
+#      - X-Request-Url
+#    log:
+#      slf4j:
+#        #自动额外传播字段设置为 Slf4j 的 MDC
+#        whitelisted-mdc-keys:
+#          - X-Operation-ID
+#          - X-Operation-Name
+#          - X-User-Id
+#          - X-User-Name
+#          - X-Client-Ip
+#          - X-Request-Url
+#
+#  zipkin:
+#    #zipkin开关
+#    enabled: false
+#    base-url: http://192.168.10.126:9411
+#    #发送日志类型,后面需改为:rabbit
+#    sender:
+#      type: web
+##    rabbitmq:
+##      queue: zipkin
+#
+#
+#threadpool:
+#  core-pool-size: 5
+#  keep-alive-seconds: 200
+#  max-pool-size: 10
+#  queue-capacity: 20
+#
+#
+#---
+#jar包配置
+#spring:
+#  profiles: jar
+#apollo:
+#  bootstrap:
+#    enabled: true
+#eureka:
+#  client:
+#    enabled: true
+#server:
+#  port: 8088
+#
+#
+#
+#---
+##war包配置
+#spring:
+#  profiles: war
+#  jmx:
+#    default-domain: OfficeHouseWebService
+#apollo:
+#  bootstrap:
+#    enabled: false
+#eureka:
+#  client:
+#    enabled: false

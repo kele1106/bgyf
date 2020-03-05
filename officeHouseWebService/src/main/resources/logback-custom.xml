@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+	<springProperty scope="context" name="LOG_FILE" source="logging.path"/>
+	<springProperty scope="context" name="ServerPort" source="server.port"/>
+
+	<!-- 控制台输出,方便调试 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="LOGSTASH" class="com.southgis.ibase.logstatistics.appender.LogDecodeAppender">
+		<file>${LOG_FILE}/${APP_NAME}/${APP_NAME}.json</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE}/${APP_NAME}/%d{yyyy-MM-dd}.json.gz</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<timestamp>
+					<timeZone>UTC</timeZone>
+				</timestamp>
+				<pattern>
+					<pattern>
+						{
+						"level": "%level",
+						"service": "${APP_NAME:-}",
+						"type": "%marker",
+						"traceId": "%X{X-B3-TraceId:-}",
+						"spanId": "%X{X-B3-SpanId:-}",
+						"parentSpanId": "%X{X-B3-ParentSpanId:-}",
+						"exportable": "%X{X-Span-Export:-}",
+						"operationId": "%X{X-Operation-ID:-}",
+						"operationName": "%X{X-Operation-Name:-}",
+						"pid": "${PID:-}",
+						"thread": "%thread",
+						"className": "%C",
+						"method": "%X{method:-}",
+						"originalMethod": "%X{methodName:-}",
+						"args": "%X{args:-}",
+						"line": "%L",
+						"elapseTime": "%X{elapseTime:-}",
+						"userId": "%X{X-User-Id:-}",
+						"userName": "%X{X-User-Name:-}",
+						"clientIp": "%X{X-Client-Ip:-}",
+						"requestUrl": "%X{X-Request-Url:-}",
+						"message": "%message",
+						"throwable": "%throwable"
+						}
+					</pattern>
+				</pattern>
+			</providers>
+		</encoder>
+	</appender>
+
+	<appender name="SQL" class="com.southgis.ibase.logstatistics.appender.LogDecodeAppender">
+		<file>${LOG_FILE}/${APP_NAME}/${APP_NAME}-sql.json</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE}/${APP_NAME}/%d{yyyy-MM-dd}-sql.json.gz</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<timestamp>
+					<timeZone>UTC</timeZone>
+				</timestamp>
+				<pattern>
+					<pattern>
+						{
+						"level": "%level",
+						"service": "${APP_NAME:-}",
+						"type": "SQL",
+						"traceId": "%X{X-B3-TraceId:-}",
+						"spanId": "%X{X-B3-SpanId:-}",
+						"parentSpanId": "%X{X-B3-ParentSpanId:-}",
+						"exportable": "%X{X-Span-Export:-}",
+						"operationId": "%X{X-Operation-ID:-}",
+						"operationName": "%X{X-Operation-Name:-}",
+						"pid": "${PID:-}",
+						"thread": "%thread",
+						"className": "%C",
+						"method": "%X{method:-}",
+						"originalMethod": "%X{methodName:-}",
+						"args": "%X{args:-}",
+						"line": "%L",
+						"elapseTime": "%X{elapseTime:-}",
+						"userId": "%X{X-User-Id:-}",
+						"userName": "%X{X-User-Name:-}",
+						"clientIp": "%X{X-Client-Ip:-}",
+						"requestUrl": "%X{X-Request-Url:-}",
+						"message": "%message",
+						"throwable": "%throwable"
+						}
+					</pattern>
+				</pattern>
+			</providers>
+		</encoder>
+	</appender>
+
+	<!-- 1. 输出SQL 到控制台和文件-->
+	<logger name="org.hibernate.SQL" additivity="false" >
+		<level value="DEBUG" />
+		<appender-ref ref="SQL" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<!-- 2. 输出SQL 的参数到控制台和文件-->
+	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" additivity="false" level="TRACE" >
+		<level value="TRACE" />
+		<appender-ref ref="SQL" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LOGSTASH" />
+	</root>
+
+</configuration>
