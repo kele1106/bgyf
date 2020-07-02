@@ -40,7 +40,7 @@
 		<cas-client-core.version>3.5.0.6</cas-client-core.version>
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>
 		<commons-pool.version>1.6</commons-pool.version>
-		<mysql.version>8.0.15</mysql.version>
+		<mysql.version>8.0.16</mysql.version>
 		<oracle.version>12.1.0.1</oracle.version>
 		<guava.version>18.0</guava.version>
 		<jmockit.version>1.40</jmockit.version>
