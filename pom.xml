@@ -32,7 +32,7 @@
 		<ibase.version>3.0.1-SNAPSHOT</ibase.version>
 		<spring-boot.version>2.1.5.RELEASE</spring-boot.version>
 		<kaptcha.version>2.3.2</kaptcha.version>
-		<jackson.version>2.9.8</jackson.version>
+		<jackson.version>2.12.1</jackson.version>
 		<zxing.version>3.1.0</zxing.version>
 		<lombok.version>1.16.16</lombok.version>
 		<commons-dbcp2.version>2.3.0</commons-dbcp2.version>
