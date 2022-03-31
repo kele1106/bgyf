@@ -30,7 +30,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<ibase.version>3.0.1-SNAPSHOT</ibase.version>
-		<spring-boot.version>2.1.5.RELEASE</spring-boot.version>
+		<spring-boot.version>2.5.12</spring-boot.version>
 		<kaptcha.version>2.3.2</kaptcha.version>
 		<jackson.version>2.9.8</jackson.version>
 		<zxing.version>3.1.0</zxing.version>
